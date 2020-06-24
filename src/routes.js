@@ -16,6 +16,7 @@ routes.post('/signUp', firebaseAuthController.signUp);
 routes.post('/login', firebaseAuthController.login);
 routes.post('/logout', firebaseAuthController.logout);
 routes.post('/forgot', firebaseAuthController.forgot);
+routes.post('/emailVerification', firebaseAuthController.emailVerification);
 routes.post('/updateEmail', firebaseUserController.updateEmail);
 routes.post('/updatePassword', firebaseUserController.updatePassword);
 routes.post('/deleteUser', firebaseUserController.deleteUser);

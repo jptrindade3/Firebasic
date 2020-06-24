@@ -19,8 +19,12 @@ module.exports = {
 
         firebase.auth().signInWithEmailAndPassword(userData.email, userData.password).then((loggedIn) => {
             if(loggedIn){
-                res.send({message: "Login feito com sucesso"});
-                return res.json(loggedIn);
+                if(loggedIn.user.emailVerified == true){//Só pode logar caso o email seja confirmado
+                    return res.json(loggedIn);
+                }
+                else{
+                    return res.json({message: "Email não verificado"});
+                }               
             }
         }).catch((error) => {
             // auth/wrong-password
@@ -49,4 +53,19 @@ module.exports = {
             res.send({errorType: error.code});
         });
     },
+
+    async emailVerification(req, res){
+        let user = await firebase.auth().currentUser;
+
+        if(user){
+            user.sendEmailVerification().then(() => {
+                res.send({message: "Verificação enviada com sucesso"});
+            }).catch((error) => {
+                res.send({errorType: error.code});
+            });
+        }
+        else{
+            res.send({message: "Usuário não logado"});
+        }      
+    }
 };
